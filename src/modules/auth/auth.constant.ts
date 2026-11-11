@@ -1,0 +1,27 @@
+export class AuthSvcPatterns {
+	static readonly FORGET_PWD = 'FORGET_PWD';
+	static readonly VERIFY_IDENTITY_RIGISTER = 'VERIFY_IDENTITY_RIGISTER';
+	static readonly AUTH_PING = 'AUTH_PING';
+	static readonly SIGN_IN = 'SIGN_IN';
+	static readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+	static readonly LOG_OUT = 'LOG_OUT';
+	static readonly VALIDATE_TOKEN = 'VALIDATE_TOKEN';
+	static readonly VALIDATE_TEMP_TOKEN = 'VALIDATE_TEMP_TOKEN';
+	static readonly OTP_SIGN_IN = 'OTP_SIGN_IN';
+	static readonly VERIFY_AND_CREATE_TOKEN = 'VERIFY_AND_CREATE_TOKEN';
+	static readonly AUTH_RESET_PASSWORD = 'AUTH_RESET_PASSWORD';
+	static readonly VERIFY_FORGET_PWD = 'VERIFY_FORGET_PWD';
+	static readonly SOCIAL_MEDIA_REGISTER = 'SOCIAL_MEDIA_REGISTER';
+	static readonly CHECK_DETAILS = 'CHECK_DETAILS';
+	static readonly EMPLOYER_REGISTER = 'EMPLOYER_REGISTER';
+	static readonly EMPLOYER_MAIL_VERIFICATION = 'EMPLOYER_MAIL_VERIFICATION';
+	static readonly EMPLOYER_SET_PASSWORD = 'EMPLOYER_SET_PASSWORD';
+	static readonly EMPLOYER_DECLARATION = 'EMPLOYER_DECLARATION';
+	static readonly EMPLOYER_SENT_OTP = 'EMPLOYER_SENT_OTP';
+	static readonly EMPLOYER_PHONE_VERIFICATION = 'EMPLOYER_PHONE_VERIFICATION';
+	static readonly EMPLOYER_RESEND_MAIL = 'EMPLOYER_RESEND_MAIL';
+	static readonly JOBSEEKER_REGISTER = 'JOBSEEKER_REGISTER';
+	static readonly SEND_OTP = 'SEND_OTP';
+	static readonly VERIFY_OTP = 'VERIFY_OTP';
+	static readonly VERIFY_DETAILS = 'VERIFY_DETAILS';
+}

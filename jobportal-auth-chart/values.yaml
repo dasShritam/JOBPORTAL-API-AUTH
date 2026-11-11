@@ -1,0 +1,148 @@
+replicaCount: 1
+image:
+  repository: $(AUTH_IMG_REGISTRY)
+  pullPolicy: IfNotPresent
+  tag: $(Build.BuildId)
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  name: auth-svc
+  type: ClusterIP
+  port: $(AUTH_SVC_PORT)
+  targetPort: $(AUTH_SVC_PORT)
+  protocol: TCP
+
+ingress:
+  name: jobportal-ingress-nginx
+  enabled: false
+  className: ''
+  annotations: {}
+  hosts:
+    - host: $(INGRESS_HOST)
+      paths:
+        - path: /api/auth/?(.*)
+          pathType: Prefix
+          service:
+            name: auth-svc
+            port: $(AUTH_SVC_PORT)
+        - path: /api/manageac/?(.*)
+          pathType: Prefix
+          service:
+            name: manageaccount-svc
+            port: $(MANAGE_AC_PORT)
+        - path: /api/assessment/?(.*)
+          pathType: Prefix
+          service:
+            name: manageaccount-svc
+            port: $(MANAGE_AC_PORT)
+        - path: /api/manage-job/?(.*)
+          pathType: Prefix
+          service:
+            name: managejob-svc
+            port: $(MANAGE_JOB_SVC_PORT)
+        - path: /api/help-support/?(.*)
+          pathType: Prefix
+          service:
+            name: managejob-svc
+            port: $(MANAGE_JOB_SVC_PORT)
+        - path: /api/report/?(.*)
+          pathType: Prefix
+          service:
+            name: managejob-svc
+            port: $(MANAGE_JOB_SVC_PORT)
+        - path: /api/notification/?(.*)
+          pathType: Prefix
+          service:
+            name: notification-svc
+            port: $(NOTIFICATION_SVC_PORT)
+        - path: /websocket/connect/?(.*)
+          pathType: Prefix
+          service:
+            name: notification-svc
+            port: $(NOTIFICATION_SVC_PORT)
+        - path: /api/scheduler/?(.*)
+          pathType: Prefix
+          service:
+            name: scheduler-svc
+            port: $(SCHEDULER_SVC_PORT)
+
+        # - path: /websocket/connect/private/?(.*)
+        #   pathType: Prefix
+        #   service:
+        #     name: notification-svc
+        #     port: $(NOTIFICATION_SVC_PORT)
+        # - path: /websocket/connect/auth/?(.*)
+        #   pathType: Prefix
+        #   service:
+        #     name: notification-svc
+        #     port: $(NOTIFICATION_SVC_PORT)              
+  tls: []
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 500Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+app:
+  name: auth-depl
+  group: api
+  namespace: jobportal-app
+  releasename: auth-release
+  releasenamespace: jobportal-app
+  managedby: Helm
+nodeSelector:
+  agentpool: app
+secrets:
+  auth:
+    name: jobportal-auth-secret
+    AUTH_SVC_PORT: $(AUTH_SVC_PORT)
+    ENVIRONMENT: $(ENVIRONMENT)
+    STORAGE_ACC_URI: $(STORAGE_ACC_URI)
+    APP_CONNECTIONSTRING_MONGO: $(APP_CONNECTIONSTRING_MONGO)
+    BLOB_AC_NAME: $(BLOB_AC_NAME)
+    BLOB_AC_KEY: $(BLOB_AC_KEY)
+    BLOB_CONNECTION_STRING: $(BLOB_CONNECTION_STRING)
+    BLOB_LOGGER_CONTAINER: $(BLOB_LOGGER_CONTAINER)
+    BLOB_COMMON_CONTAINER: $(BLOB_COMMON_CONTAINER)
+    BLOB_EMPLOYER_CONTAINER: $(BLOB_EMPLOYER_CONTAINER)
+    BLOB_JOBSEEKER_CONTAINER: $(BLOB_JOBSEEKER_CONTAINER)
+    LOG_LEVEL: $(LOG_LEVEL)
+    JWT_ACCESS_TOKEN_SECRET: $(JWT_ACCESS_TOKEN_SECRET)
+    JWT_TEMP_ACCESS_TOKEN_SECRET: $(JWT_TEMP_ACCESS_TOKEN_SECRET)
+    JWT_REFRESH_TOKEN_SECRET: $(JWT_REFRESH_TOKEN_SECRET)
+    JWT_ACCESS_TOKEN_EXP_TIMEMIN_WEB: $(JWT_ACCESS_TOKEN_EXP_TIMEMIN_WEB)
+    JWT_TEMP_ACCESS_TOKEN_EXP_TIMEMIN_WEB: $(JWT_TEMP_ACCESS_TOKEN_EXP_TIMEMIN_WEB)
+    JWT_REFRESH_TOKEN_EXP_TIMEMIN_WEB: $(JWT_REFRESH_TOKEN_EXP_TIMEMIN_WEB)
+    JWT_REFRESH_TOKEN_TTL_DAY_WEB: $(JWT_REFRESH_TOKEN_TTL_DAY_WEB)
+    GOOGLE_SSO_CLIENT_ID: $(GOOGLE_SSO_CLIENT_ID)
+    GOOGLE_SSO_CLIENT_SECRET: $(GOOGLE_SSO_CLIENT_SECRET)
+    LINKEDIN_SSO_CLIENT_ID: $(LINKEDIN_SSO_CLIENT_ID)
+    LINKEDIN_SSO_CLIENT_SECRET: $(LINKEDIN_SSO_CLIENT_SECRET)
+    FACEBOOK_SSO_CLIENT_ID: $(FACEBOOK_SSO_CLIENT_ID)
+    FACEBOOK_SSO_CLIENT_SECRET: $(FACEBOOK_SSO_CLIENT_SECRET)
+    TWITTER_SSO_CLIENT_ID: $(TWITTER_SSO_CLIENT_ID)
+    TWITTER_SSO_CLIENT_SECRET: $(TWITTER_SSO_CLIENT_SECRET)
+    TWILIO_SERVICE_SID: $(TWILIO_SERVICE_SID)
+    TWILIO_AUTH_TOKEN: $(TWILIO_AUTH_TOKEN)
+    OTP_VALIDITY_INMIN: $(OTP_VALIDITY_INMIN)
+    MAX_PWD_HISTORY: $(MAX_PWD_HISTORY)
+    PWD_HISTORY_CHECK: $(PWD_HISTORY_CHECK)
+    VERIFY_LINK_EXPIRY_MIN: $(VERIFY_LINK_EXPIRY_MIN)
+    MAIL_SVC_HOST: $(MAIL_SVC_HOST)
+    MAIL_SVC_PORT: $(MAIL_SVC_PORT)
+    MAIL_SVC_USERNAME: $(MAIL_SVC_USERNAME)
+    MAIL_SVC_PASSWORD: $(MAIL_SVC_PASSWORD)
+    MAIL_SVC_FROM_NAME: $(MAIL_SVC_FROM_NAME)
+    MAIL_SVC_FROM: $(MAIL_SVC_FROM)
+    UI_URL: $(UI_URL)

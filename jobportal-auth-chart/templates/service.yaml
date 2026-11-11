@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.app.namespace }}
+  annotations:
+    meta.helm.sh/release-name: {{ .Values.app.releasename }}
+    meta.helm.sh/release-namespace: {{ .Values.app.releasenamespace }} 
+  labels:
+    app: {{ .Values.app.name }}
+    group: {{ .Values.app.group }}
+    app.kubernetes.io/managed-by: {{ .Values.app.managedby }} 
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port | b64dec | int }}
+      targetPort: {{ .Values.service.targetPort | b64dec | int }}
+      protocol: {{ .Values.service.protocol }}
+      name: {{ .Values.service.name }}
+  selector:
+    app: {{ .Values.app.name }}
